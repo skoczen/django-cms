@@ -4,16 +4,22 @@ echo "setting up test environment (this might take a while)..."
 python bootstrap.py >/dev/null 2>&1
 ./bin/buildout >/dev/null 2>&1
 echo "running tests"
+HUDSON=0;
+SUITE='cms'
 if [ $1 ]; then
-    suite="cms.$1"
-else
-    suite='cms'
+    if [ $1 == "--hudson" ]; then
+        HUDSON=1
+    else
+        SUITE="cms.$1"
+    fi
 fi
-./bin/coverage run ./testapp/manage.py test $suite
-retcode=$?
-echo "post test actions..."
-./bin/coverage xml --omit=parts,/usr/,eggs > /dev/null
-./bin/coverage html --omit=parts,/usr/,eggs > /dev/null
+if [ $HUDSON ]; then
+    ./bin/django hudson
+    RETCODE=$?
+else
+    ./bin/django test $SUITE
+    RETCODE=$?
+fi
 cd ..
 echo "done"
-exit $retcode
+exit $RETCODE
