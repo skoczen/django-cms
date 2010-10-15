@@ -101,6 +101,7 @@ INSTALLED_APPS = (
     'testapp.placeholderapp',
     'south',
     'reversion',
+    'django_hudson',
 )
 
 gettext = lambda s: s
