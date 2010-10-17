@@ -14,7 +14,7 @@ if [ $1 ]; then
     fi
 fi
 if [ $HUDSON ]; then
-    ./bin/django hudson
+    ./bin/django hudson $SUITE
     RETCODE=$?
 else
     ./bin/django test $SUITE
