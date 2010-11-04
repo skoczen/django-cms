@@ -13,6 +13,7 @@ URL_CMS_PAGE_ADD = URL_CMS_PAGE + "add/"
 URL_CMS_PAGE_CHANGE = URL_CMS_PAGE + "%d/" 
 URL_CMS_PLUGIN_ADD = URL_CMS_PAGE + "add-plugin/"
 URL_CMS_PLUGIN_EDIT = URL_CMS_PAGE + "edit-plugin/"
+URL_CMS_PLUGIN_REMOVE = URL_CMS_PAGE + "remove-plugin/"
 
 class _Warning(object):
     def __init__(self, message, category, filename, lineno):
@@ -152,6 +153,7 @@ class CMSTestCase(TestCase):
         # public model shouldn't be available yet, because of the moderation
         self.assertObjectExist(Title.objects, slug=page_data['slug'])
         
+# test case currently failing because Title model is no longer under Publisher
         if settings.CMS_MODERATOR and page.is_under_moderation(): 
             self.assertObjectDoesNotExist(Title.objects.public(), slug=page_data['slug'])
         
