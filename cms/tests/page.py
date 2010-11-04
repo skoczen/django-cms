@@ -213,3 +213,8 @@ class PagesTestCase(CMSTestCase):
         page3 = Page.objects.get(pk=page3.pk)
         self.assertEqual(page3.get_path(), page_data2['slug']+"/"+page_data3['slug'])
         
+    def test_11_bug_414_unicode_template_names(self):
+        OLD = settings.DEBUG
+        settings.DEBUG = False
+        self.client.get(URL_CMS_PAGE)
+        settings.DEBUG = OLD

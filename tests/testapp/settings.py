@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Django settings for cms project.
 import os
 PROJECT_DIR = os.path.dirname(__file__)
@@ -128,7 +129,7 @@ APPEND_SLASH = True
 
 CMS_TEMPLATES = (
     ('col_two.html', gettext('two columns')),
-    ('col_three.html', gettext('three columns')),
+    ('col_three.html', gettext(u'三欄')),
     ('nav_playground.html', gettext('navigation examples')),
 )
 
