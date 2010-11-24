@@ -196,19 +196,27 @@ def post_save_page(instance, raw, created, **kwargs):
         # tell moderator something was happen with this page
         from cms.utils.moderator import page_changed
         page_changed(instance, old_page)
-    
-def update_placeholders(instance, **kwargs):
-    from cms.utils.plugins import get_placeholders
-    placeholders = get_placeholders(instance.get_template())
-    found = {}
-    for placeholder in instance.placeholders.all():
-        if placeholder.slot in placeholders:
-            found[placeholder.slot] = placeholder
-    for placeholder_name in placeholders:
-        if not placeholder_name in found:
-            placeholder = Placeholder.objects.create(slot=placeholder_name)
-            instance.placeholders.add(placeholder)
-            found[placeholder_name] = placeholder
+def update_placeholders(instance, **kwargs): 
+    from cms.utils.plugins import get_placeholders 
+    from django.db.models import Max 
+    from django.db import IntegrityError 
+    from django.db import transaction 
+    placeholders = get_placeholders(instance.get_template()) 
+    found = {} 
+    for placeholder in instance.placeholders.all(): 
+        if placeholder.slot in placeholders: 
+            found[placeholder.slot] = placeholder 
+    for placeholder_name in placeholders: 
+        if not placeholder_name in found: 
+            sid = transaction.savepoint() 
+            try: 
+                placeholder = Placeholder.objects.create(slot=placeholder_name) 
+            except IntegrityError: 
+                transaction.savepoint_rollback(sid) 
+                placeholder = Placeholder.objects.create(id=Placeholder.objects.all().aggregate(Max('id') ) ['id__max'] + 1, slot=placeholder_name) 
+            instance.placeholders.add(placeholder) 
+            found[placeholder_name] = placeholder    
+
 
 def invalidate_menu_cache(instance, **kwargs):
     menu_pool.clear(instance.site_id)    
