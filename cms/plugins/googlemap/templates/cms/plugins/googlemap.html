@@ -18,7 +18,7 @@
 			  // Create new map object
 			  map = new GMap2(document.getElementById("google-map-{{ object.id }}"));
 			  map.addControl(new GSmallZoomControl());
-			  map.addControl(new GMapTypeControl());
+			  // map.addControl(new GMapTypeControl());
 			 
 			  {% if object.get_lat_lng %}
 			  var latLng=new GLatLng({{ object.get_lat_lng|join:", " }});
