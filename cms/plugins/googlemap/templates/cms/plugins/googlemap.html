@@ -58,7 +58,7 @@
 			  map.addOverlay(marker);
 			
 			  // Add address information to marker
-			  marker.bindInfoWindowHtml("{% ifnotequal title "" %}<strong>" + title + "</strong><br />{% endifnotequal %}" + address {% ifnotequal map.get_content "" %} + "<i>{{object.get_content }}</i>"{% endifnotequal %},{'maxWidth':150});
+			  marker.bindInfoWindowHtml("{% ifnotequal title "" %}<strong>" + title + "</strong><br />{% endifnotequal %}" + address {% ifnotequal map.get_content "" %} + "<i>{{object.get_content }}</i>"{% endifnotequal %},{maxWidth:150});
 			}
 			
 			load();
