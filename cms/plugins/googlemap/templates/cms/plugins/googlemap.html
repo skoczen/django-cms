@@ -46,7 +46,7 @@
 			function addToMap(latLng)
 			{
 			  // Retrieve the latitude and longitude
-			  center = new GLatLng(latLng.lat() + 0.01, latLng.lng());
+			  center = new GLatLng(latLng.lat(), latLng.lng());
 			
 			  // Center the map on this point
 			  map.setCenter(center, zoom);
