@@ -54,7 +54,7 @@ def get_current_page(path, lang, queryset, home_slug=None, home_tree_id=None):
     except IndexError:
         return None, None
 
-def details(request, page_id=None, slug=None, template_name=settings.CMS_TEMPLATES[0][0], no404=False):
+def details(request, page_id=None, slug=None, template_name=settings.CMS_TEMPLATES[0][0], no404=False, **kwargs):
     # get the right model
     page_queryset = get_page_queryset(request)
     
@@ -126,5 +126,8 @@ def details(request, page_id=None, slug=None, template_name=settings.CMS_TEMPLAT
             return HttpResponseRedirect('%s?%s=%s' % tup)
     else:
         has_change_permissions = False
-    return template_name, locals()
+        
+    locals_dict = locals()
+    locals_dict.update(**kwargs)
+    return template_name, locals_dict
 details = auto_render(details)
